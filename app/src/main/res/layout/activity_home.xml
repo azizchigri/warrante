@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.HomeActivity"
+    android:background="@drawable/background_img_trans">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/accueil"
+        android:textSize="32sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/blackTextFont"
+        android:padding="20dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
+
+
+    </RelativeLayout>
+
+    <!-- Adding bottom sheet after main content -->
+    <include layout="@layout/home_bottom_sheet" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
