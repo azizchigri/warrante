@@ -2,19 +2,27 @@ package aziz.chigri.warrantev2.view;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -24,11 +32,14 @@ import aziz.chigri.warrantev2.adapter.TagViewPagerAdapter;
 import aziz.chigri.warrantev2.model.Bill;
 import aziz.chigri.warrantev2.model.TagItem;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<TagItem> tagItems;
     ArrayList<Bill> bills;
     BottomSheetBehavior sheetBehavior;
+    NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +68,21 @@ public class HomeActivity extends AppCompatActivity {
         viewPager.setAdapter(new TagViewPagerAdapter(getSupportFragmentManager(), tagItems));
         configureBottomSheet();
         configureRecyclerView();
+        this.configureToolBar();
+        configureDrawerLayout();
+        configureNavigationView();
+    }
+
+    private void configureToolBar(){
+        this.toolbar = findViewById(R.id.activity_main_toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    private void configureDrawerLayout() {
+        this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     private void configureBottomSheet(){
@@ -149,4 +175,39 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    public void onBackPressed() {
+        // 5 - Handle back click to close menu
+        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        // 4 - Handle Navigation Item Click
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.activity_main_bills :
+                break;
+            case R.id.activity_main_drawer_profile:
+                break;
+            case R.id.activity_main_drawer_layout:
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    private void configureNavigationView(){
+        this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blackTextFont">#121212</color>
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#4986ea</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="borderColor">#eeeeee</color>
@@ -146,4 +146,5 @@
     <color name="dark_blue">#00008B</color>
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
+    <color name="blue_warrante">#4986ea</color>
 </resources>
