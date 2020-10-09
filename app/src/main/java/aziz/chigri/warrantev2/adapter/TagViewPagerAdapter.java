@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 
 import aziz.chigri.warrantev2.model.TagItem;
+import aziz.chigri.warrantev2.utils.Constants;
 import aziz.chigri.warrantev2.view.TagPageLayout;
 
 public class TagViewPagerAdapter extends FragmentPagerAdapter {
@@ -23,15 +24,15 @@ public class TagViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        if (tagList.size() % 8 == 0) return tagList.size()/8;
-        else return tagList.size()/8+1;
+        if (tagList.size() % Constants.NB_TAG_PER_PAGE_HOME == 0) return tagList.size()/8;
+        else return tagList.size()/Constants.NB_TAG_PER_PAGE_HOME+1;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        int start = position * 8;
-        int end = Math.min(position * 8 + 8, tagList.size());
+        int start = position * Constants.NB_TAG_PER_PAGE_HOME;
+        int end = Math.min(position * Constants.NB_TAG_PER_PAGE_HOME + Constants.NB_TAG_PER_PAGE_HOME, tagList.size());
 
         // 4 - Page to return
         return(TagPageLayout.newInstance(position, new ArrayList<>(this.tagList.subList(start, end))));
