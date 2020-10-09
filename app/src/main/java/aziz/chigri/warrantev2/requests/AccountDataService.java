@@ -11,4 +11,7 @@ public interface AccountDataService {
 
     @POST("/login")
     Call<ResponseBody> login(@Body JsonObject loginObject);
+
+    @POST("/user")
+    Call<ResponseBody> createAccount(@Body JsonObject userObject);
 }

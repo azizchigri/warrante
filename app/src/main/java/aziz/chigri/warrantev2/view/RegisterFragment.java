@@ -1,7 +1,8 @@
-package aziz.chigri.warrantev2;
+package aziz.chigri.warrantev2.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,26 +23,29 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.Objects;
 
+import aziz.chigri.warrantev2.R;
 import aziz.chigri.warrantev2.requests.AccountDataService;
 import aziz.chigri.warrantev2.requests.RetrofitClientInstance;
-import aziz.chigri.warrantev2.view.HomeActivity;
-import aziz.chigri.warrantev2.view.LoginActivity;
+import aziz.chigri.warrantev2.utils.Constants;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginFragment extends Fragment {
+import static aziz.chigri.warrantev2.utils.Constants.PREFERENCE_USERNAME;
+
+public class RegisterFragment extends Fragment {
 
 
-    public LoginFragment() {
+    public RegisterFragment() {
+        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
 
         final ViewPager superViewPager = requireActivity().findViewById(R.id.viewPager);
 
@@ -49,35 +53,31 @@ public class LoginFragment extends Fragment {
         pgsBar.setVisibility(View.GONE);
         final TextInputEditText emailText = view.findViewById(R.id.email);
         final TextInputEditText passwordText = view.findViewById(R.id.password);
-        final Button loginButton = view.findViewById(R.id.loginButton);
+        final TextInputEditText confirmPasswordText = view.findViewById(R.id.confirmPassword);
+        final Button registerButton = view.findViewById(R.id.registerButton);
         final AccountDataService service = RetrofitClientInstance.getInstance().create(AccountDataService.class);
-        final TextView registerTxt = view.findViewById(R.id.registerSentence);
-        final TextView forgotPasswordTxt = view.findViewById(R.id.forgotPassword);
+        final TextView connectSentence = view.findViewById(R.id.connectSentence);
 
-        registerTxt.setOnClickListener(v -> superViewPager.setCurrentItem(1));
-        forgotPasswordTxt.setOnClickListener(v -> forgotPassword());
+        connectSentence.setOnClickListener(v -> superViewPager.setCurrentItem(0));
 
-        loginButton.setOnClickListener(v -> {
+        registerButton.setOnClickListener(v -> {
             hideComponents(view);
-            final Context context = v.getContext();
             JsonObject body = new JsonObject();
-            body.addProperty("email", emailText.getText().toString());
+            final String email = emailText.getText().toString();
+            body.addProperty("email", email);
             body.addProperty("password", passwordText.getText().toString());
-            Call<ResponseBody> call = service.login(body);
+            Call<ResponseBody> call = service.createAccount(body);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                     if (response.code() == 200) {
                         Toast.makeText(v.getContext(), "OK", Toast.LENGTH_SHORT).show();
-                        Intent myIntent = new Intent(context, HomeActivity.class);
-                        try {
-                            myIntent.putExtra("rid", response.body().string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        context.startActivity(myIntent);
                         view.findViewById(R.id.pBar).setVisibility(View.GONE);
-                        requireActivity().finish();
+                        SharedPreferences mPreferences = requireContext().getSharedPreferences(Constants.PREFERENCE_FILE, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = mPreferences.edit();
+                        editor.putString(PREFERENCE_USERNAME, email);
+                        editor.apply();
+                        superViewPager.setCurrentItem(0);
                     } else {
                         Toast.makeText(v.getContext(), "KO", Toast.LENGTH_SHORT).show();
                         showComponents(view);
@@ -95,26 +95,21 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-
     private void hideComponents(View v) {
         v.findViewById(R.id.emailLayout).setVisibility(View.INVISIBLE);
         v.findViewById(R.id.passwordLayout).setVisibility(View.INVISIBLE);
-        v.findViewById(R.id.loginButton).setVisibility(View.INVISIBLE);
-        v.findViewById(R.id.forgotPassword).setVisibility(View.INVISIBLE);
-        v.findViewById(R.id.registerSentence).setVisibility(View.INVISIBLE);
+        v.findViewById(R.id.confirmPasswordLayout).setVisibility(View.INVISIBLE);
+        v.findViewById(R.id.registerButton).setVisibility(View.INVISIBLE);
+        v.findViewById(R.id.connectSentence).setVisibility(View.INVISIBLE);
         v.findViewById(R.id.pBar).setVisibility(View.VISIBLE);
     }
 
     private void showComponents(View v) {
         v.findViewById(R.id.emailLayout).setVisibility(View.VISIBLE);
         v.findViewById(R.id.passwordLayout).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.forgotPassword).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.registerSentence).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.confirmPasswordLayout).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.connectSentence).setVisibility(View.VISIBLE);
         v.findViewById(R.id.pBar).setVisibility(View.INVISIBLE);
-    }
-
-    private void forgotPassword() {
-        Toast.makeText(getContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
     }
 }
