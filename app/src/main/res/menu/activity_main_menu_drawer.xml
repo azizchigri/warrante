@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <item android:title="">
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/grg"
+                android:icon="@drawable/ic_launcher_background"
+                android:title="Mettre à jour mon profil" />
+        </group>
+    </item>
+    <item android:title="">
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/grg"
+                android:icon="@drawable/ic_launcher_background"
+                android:title="Retourner à l'accueil" />
+        </group>
+    </item>
+
+    <item android:title="Gestion de la garantie">
+        <menu>
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/activity_main_bills"
+                android:icon="@drawable/ic_launcher_background"
+                android:title="Mes garanties" />
+        </group>
+        </menu>
+    </item>
+
+
+    <item android:title="Remplacement">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_main_drawer_profile"
+                    android:icon="@drawable/ic_launcher_background"
+                    android:title="Remplacer mon appareil" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Réparation">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/efbvuih"
+                    android:icon="@drawable/ic_launcher_background"
+                    android:title="Réparer mon appareil" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="A propos">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/ee"
+                    android:icon="@drawable/ic_launcher_background"
+                    android:title="Conditions générales d'utilisation" />
+                <item
+                    android:id="@+id/dffg"
+                    android:icon="@drawable/ic_launcher_background"
+                    android:title="Politique de confidentialité" />
+            </group>
+        </menu>
+    </item>
+
+</menu>
